@@ -1,12 +1,11 @@
-package br.com.nielsen.app.domain.entity;
+package br.com.nielsen.app.domain.dto;
 
+import br.com.nielsen.app.domain.entity.CustomLocalDateTimeSerializer;
+import br.com.nielsen.app.domain.entity.ParseDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -16,22 +15,21 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of="id")
-@Entity
-@Table(name="produto")
-public class Produto implements Serializable {
+@ToString
+public class ProdutoDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String nome;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     @JsonDeserialize(using = ParseDeserializer.class)
-    @Column(name = "datacadastro", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime dataCadastro;
 
     @Column(nullable = false)
